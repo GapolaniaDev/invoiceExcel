@@ -1,0 +1,53 @@
+/* Estilos globales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  /* Mobile First Styles */
+  main {
+    padding: 1rem;
+  }
+  
+  section {
+    margin-bottom: 2rem;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    margin-bottom: 0.5rem;
+  }
+  
+  input, textarea {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Desktop Styles */
+  @media (min-width: 768px) {
+    header nav ul li {
+      margin: 0 20px;
+    }
+  
+    main {
+      padding: 2rem;
+    }
+  
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+  
