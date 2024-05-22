@@ -24,4 +24,3 @@ jobs:
         with:
           github_token: ${{ secrets.DEPLOY_GH_PAGES_TOKEN }}
           publish_dir: ./docs  # Cambia esto por tu carpeta de construcción (dist o docs)
-          publish_branch: gh-pages  # Cambia esto por la rama a la que quieras desplegar
