@@ -3,8 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Cambia esto por la rama principal de tu repositorio
-
+      - main # Cambia esto por la rama principal de tu repositorio
+  pull_request:
+    types: [closed]
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -23,5 +24,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.DEPLOY_GH_PAGES_TOKEN }}
-          publish_dir: ./docs  # Cambia esto por tu carpeta de construcción (dist o docs)
-          publish_branch: gh-pages  # Cambia esto por la rama a la que quieras desplegar
+          publish_dir: ./docs # Cambia esto por tu carpeta de construcción (dist o docs)
+          publish_branch: gh-pages # Cambia esto por la rama a la que quieras desplegar
