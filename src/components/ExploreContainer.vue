@@ -1,7 +1,7 @@
 <template>
   <div id="container">
     <strong>{{ name }}</strong>
-    <h1>Develop</h1>
+    <h1>Develop 2</h1>
     <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
   </div>
 </template>
