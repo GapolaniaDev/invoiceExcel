@@ -1,24 +1,45 @@
-// src/router/index.js
-import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from '../views/HomePage.vue';
-import AboutPage from '../views/AboutPage.vue';
+import { createRouter, createWebHistory } from "vue-router";
+
+
+import ExamplePage from '../components/ExamplePage.vue';
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: HomePage
+    redirect: '/home',
   },
   {
-    path: '/about',
-    name: 'About',
-    component: AboutPage
-  }
+    path: '/',
+    component: ExamplePage,
+    children: [
+      {
+        path: '',
+        redirect: '/home',
+      },
+      {
+        path: 'home',
+        component: () => import('../views/HomePage.vue'),
+      },
+      {
+        path: 'radio',
+        component: () => import('../views/RadioPage.vue'),
+      },
+      {
+        path: 'library',
+        component: () => import('../views/LibraryPage.vue'),
+      },
+      {
+        path: 'search',
+        component: () => import('../views/SearchPage.vue'),
+      },
+    ],
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
 });
+
 
 export default router;

@@ -1,18 +1,26 @@
 <!-- src/views/HomePage.vue -->
+<style scoped>
+.example-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+</style>
+
 <template>
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Home</ion-title>
+        <ion-title>Listen now</ion-title>
       </ion-toolbar>
     </ion-header>
-
     <ion-content>
-      <h1>Home Page contenido de la pagina</h1>
-      <p>PPPPPPPP</p>
+      <div class="example-content">Listen now content</div>
     </ion-content>
   </ion-page>
 </template>
+
 
 <script>
 export default {

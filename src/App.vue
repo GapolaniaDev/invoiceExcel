@@ -1,7 +1,7 @@
 <!-- src/App.vue -->
-<template>
-  <ion-app>
-    <router-view></router-view>
+<template>1
+  <ion-app>2
+    <ion-router-outlet>5</ion-router-outlet>3
   </ion-app>
 </template>
 
@@ -12,7 +12,4 @@ export default {
 </script>
 
 <style>
-ion-page {
-  height: 100%;
-}
 </style>
