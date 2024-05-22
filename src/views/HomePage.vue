@@ -58,7 +58,7 @@
             <ion-input value="Adelaide" :readonly="true"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input value="SA  5000" :readonly="true"></ion-input>
+            <ion-input value="SA  5000 " :readonly="true"></ion-input>
           </ion-item>
         </ion-list>
       </ion-card>
