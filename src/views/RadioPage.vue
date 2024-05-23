@@ -20,7 +20,7 @@
   </ion-page>
 </template>
 
-<script lang="ts">
+<script >
   import { IonHeader, IonToolbar, IonTitle, IonContent, IonPage } from '@ionic/vue';
 
   export default {

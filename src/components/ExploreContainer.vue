@@ -27,7 +27,7 @@
   </ion-page>
 </template>
 
-<script lang="ts">
+<script>
   import { IonPage, IonTabs, IonRouterOutlet, IonTabBar, IonTabButton, IonLabel, IonIcon } from '@ionic/vue';
 
   import { playCircle, radio, library, search } from 'ionicons/icons';
