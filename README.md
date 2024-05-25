@@ -33,3 +33,7 @@ git config --global alias.cm "commit"
 git config --global alias.p "push"
 git config --global alias.pl "pull"
 git config --global alias.ac '!git add . && git commit -m'
+git config --global alias.pod "push origin develop"
+
+test changes
+git config --global --get alias.pod
