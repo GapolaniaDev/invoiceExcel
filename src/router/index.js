@@ -19,16 +19,16 @@ const routes = [
         component: () => import('../views/HomePage.vue'),
       },
       {
-        path: 'radio',
-        component: () => import('../views/RadioPage.vue'),
+        path: 'details',
+        component: () => import('../views/DetailsPage.vue'),
       },
       {
-        path: 'library',
-        component: () => import('../views/LibraryPage.vue'),
+        path: 'view',
+        component: () => import('../views/ViewPage.vue'),
       },
       {
-        path: 'search',
-        component: () => import('../views/SearchPage.vue'),
+        path: 'export',
+        component: () => import('../views/ExportPage.vue'),
       },
     ],
   },
