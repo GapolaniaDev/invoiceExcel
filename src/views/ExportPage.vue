@@ -11,11 +11,11 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Library</ion-title>
+        <ion-title>Export</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <div class="example-content">Library content</div>
+      <div class="example-content">Export content</div>
     </ion-content>
   </ion-page>
 </template>

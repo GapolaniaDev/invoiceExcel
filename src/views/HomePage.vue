@@ -11,10 +11,15 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Invoice 1</ion-title>
+        <ion-title>Make your invoice</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content>
+    <ion-content class="ion-padding">
+      <!-- Agrega el ion-refresher con la función de actualización -->
+      <ion-refresher slot="fixed" @ionRefresh="handleRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+
       <ion-card class="ion-padding">
         <ion-list>
           <ion-item>
@@ -84,10 +89,51 @@ import {
   IonList,
   IonInput,
   IonCard,
-  IonItem
+  IonItem,
+  IonRefresherContent,
+  IonRefresher,
 } from "@ionic/vue";
 
+import {getWeekdaysMondayToThursday} from '../utils';
+
 export default {
-  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonList, IonInput, IonCard, IonItem },
+  components: {
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonPage,
+    IonList,
+    IonInput,
+    IonCard,
+    IonItem,
+    IonRefresherContent,
+    IonRefresher,
+  },
+  data() {
+    return {
+      refreshing: false,
+    };
+  },
+  mounted() {
+    // Ejemplo de uso:
+    const startDate = new Date("2024-05-05"); // Fecha de inicio (sábado)
+    const endDate = new Date("2024-05-16"); // Fecha de fin (domingo)
+    const weekdaysMondayToThursday = getWeekdaysMondayToThursday(
+      startDate,
+      endDate
+    );
+    console.log(weekdaysMondayToThursday);
+  },
+  setup() {
+    const handleRefresh = (event) => {
+      setTimeout(() => {
+        // Cualquier llamada para cargar datos va aquí
+        event.target.complete();
+      }, 2000);
+    };
+
+    return { handleRefresh };
+  },
 };
 </script>

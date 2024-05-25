@@ -11,11 +11,11 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Radio</ion-title>
+        <ion-title>View</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <div class="example-content">Radio content</div>
+      <div class="example-content">View content</div>
     </ion-content>
   </ion-page>
 </template>
