@@ -11,7 +11,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Invoice</ion-title>
+        <ion-title>Invoice 1</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -81,9 +81,13 @@ import {
   IonTitle,
   IonContent,
   IonPage,
+  IonList,
+  IonInput,
+  IonCard,
+  IonItem
 } from "@ionic/vue";
 
 export default {
-  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage },
+  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonList, IonInput, IonCard, IonItem },
 };
 </script>

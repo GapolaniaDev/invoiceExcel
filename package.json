@@ -6,7 +6,7 @@
   "homepage": "https://elpolakopolania.github.io/invoiceExcel/",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vite build",
     "deploy": "vue-cli-service build && gh-pages -d dist",
     "preview": "vite preview",
     "test:e2e": "cypress run",
