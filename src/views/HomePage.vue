@@ -20,6 +20,8 @@
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
 
+      {{ fechaValida }}
+
       <ion-card class="ion-padding">
         <ion-list>
           <ion-item>
@@ -43,10 +45,20 @@
           </ion-item>
 
           <ion-item>
-            <ion-input label="Start" type="date" value="14"></ion-input>
+            <ion-input
+              label="Start"
+              type="date"
+              v-model="startDate"
+              @change="handleInputChange"
+            ></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label="End" type="date" value="14"></ion-input>
+            <ion-input
+              label="End"
+              type="date"
+              v-model="endDate"
+              @change="handleInputChange"
+            ></ion-input>
           </ion-item>
         </ion-list>
       </ion-card>
@@ -79,7 +91,7 @@
   </ion-page>
 </template>
 
-<script >
+<script setup>
 import {
   IonHeader,
   IonToolbar,
@@ -94,46 +106,78 @@ import {
   IonRefresher,
 } from "@ionic/vue";
 
-import {getWeekdaysMondayToThursday} from '../utils';
+import { getWeekdaysMondayToThursday } from "../utils";
+import { ref } from "vue";
 
-export default {
-  components: {
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonPage,
-    IonList,
-    IonInput,
-    IonCard,
-    IonItem,
-    IonRefresherContent,
-    IonRefresher,
-  },
-  data() {
-    return {
-      refreshing: false,
-    };
-  },
-  mounted() {
-    // Ejemplo de uso:
-    const startDate = new Date("2024-05-05"); // Fecha de inicio (sábado)
-    const endDate = new Date("2024-05-16"); // Fecha de fin (domingo)
-    const weekdaysMondayToThursday = getWeekdaysMondayToThursday(
-      startDate,
-      endDate
-    );
-    console.log(weekdaysMondayToThursday);
-  },
-  setup() {
-    const handleRefresh = (event) => {
-      setTimeout(() => {
-        // Cualquier llamada para cargar datos va aquí
-        event.target.complete();
-      }, 2000);
-    };
+// Declaración de variables reactivas con ref
+const startDate = ref("");
+const endDate = ref("");
+const fechaValida = ref(false);
+const itemsCocinas = ref(null);
+import { useStore } from "vuex";
 
-    return { handleRefresh };
-  },
+const store = useStore();
+const itemExcel = store.state.itemExcel;
+
+// Función para manejar el evento de refresco
+const handleRefresh = (event) => {
+  setTimeout(() => {
+    // Cualquier llamada para cargar datos va aquí
+    event.target.complete();
+  }, 2000);
+};
+
+const sDate = new Date("2024-06-03");
+const eDate = new Date("2024-06-30");
+const result = getWeekdaysMondayToThursday(sDate, eDate);
+console.log(result);
+
+const calculateCleanKitchen = () => {
+  itemsCocinas.value = getWeekdaysMondayToThursday(
+    new Date(startDate.value),
+    new Date(endDate.value)
+  );
+  itemsCocinas.value.forEach((item) => {
+    const newItem = {
+      id: null,
+      date: item.date,
+      room: item.room,
+      type: "",
+      description: item.description,
+      time: "",
+      amount: item.amount,
+    };
+    store.commit("setItem", newItem);
+    store.commit("SetNewItem", itemExcel);
+  });
+};
+
+// Función para manejar el cambio en los inputs de fecha
+const handleInputChange = () => {
+  fechaValida.value = true;
+
+  // Verificar si startDate y endDate no están vacíos
+  if (!startDate.value || !endDate.value) {
+    fechaValida.value = false;
+  }
+
+  // Convertir las fechas a objetos Date
+  const start = new Date(startDate.value);
+  const end = new Date(endDate.value);
+
+  // Verificar si las fechas son válidas
+  if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+    fechaValida.value = false;
+  }
+
+  // Verificar que startDate sea menor que endDate
+  if (start >= end) {
+    fechaValida.value = false;
+  }
+  if (fechaValida.value) {
+    calculateCleanKitchen();
+  }
+
+  return;
 };
 </script>
