@@ -23,7 +23,6 @@ export default {
     getUserTax: (state) => state.tax,
   },
   mutations: {
-    // Mutations para modificar el state del usuario
     setId(state, newId) {
       state.id = newId;
     },
@@ -51,7 +50,6 @@ export default {
     setTax(state, newTax) {
       state.tax = newTax;
     },
-    // Otras mutaciones aquí
   },
   actions: {},
 };

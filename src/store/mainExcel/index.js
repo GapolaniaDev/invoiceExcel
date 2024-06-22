@@ -7,7 +7,27 @@ export default {
     building: {},
     startDate: "",
     endDate: "",
-    items: [],
+    lastId: 0,
+    items: [
+      /*{
+        id: 1,
+        date: "14/07/1996",
+        room: "91",
+        type: "prueba 1",
+        description: "Test 1",
+        time: "20",
+        amount: "600",
+      },
+      {
+        id: 2,
+        date: "01/02/2024",
+        room: "122",
+        type: "prueba 2",
+        description: "Test 2",
+        time: "10",
+        amount: "300",
+      },*/
+    ],
   },
   mutations: {
     // Mutaciones para modificar el state del módulo principal
@@ -32,7 +52,23 @@ export default {
     setItems(state, newItems) {
       state.items = newItems;
     },
-    // Otras mutaciones aquí
+    SetNewItem(state, newItem) {
+      const item = JSON.parse(JSON.stringify(newItem));
+      console.log("item", (item, item.id === null || item.id === undefined));
+      if (item.id === null || item.id === undefined) {
+        item.id = ++state.lastId;
+        console.log("cual es el id", item);
+        state.items.push(item);
+        console.log("items", item);
+      } else {
+        const index = state.items.findIndex((i) => i.id === item.id);
+        if (index !== -1) {
+          state.items[index] = item;
+        } else {
+          state.items.push(item);
+        }
+      }
+    },
   },
   actions: {
     // Acciones para realizar operaciones asincrónicas relacionadas con el módulo principal
