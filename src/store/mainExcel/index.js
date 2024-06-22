@@ -54,12 +54,9 @@ export default {
     },
     SetNewItem(state, newItem) {
       const item = JSON.parse(JSON.stringify(newItem));
-      console.log("item", (item, item.id === null || item.id === undefined));
       if (item.id === null || item.id === undefined) {
         item.id = ++state.lastId;
-        console.log("cual es el id", item);
         state.items.push(item);
-        console.log("items", item);
       } else {
         const index = state.items.findIndex((i) => i.id === item.id);
         if (index !== -1) {
