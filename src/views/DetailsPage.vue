@@ -36,7 +36,7 @@
         </ion-item>
       </ion-list>
 
-      <div ref="myDiv">Contenido</div>
+      <div ref="myDiv">{{ message }} itemExcel.date {{ itemExcel.date }}</div>
 
       <ion-modal ref="modal" trigger="open-modal" @willDismiss="onWillDismiss">
         <ion-header>
@@ -66,7 +66,7 @@
   </ion-page>
 </template>
 
-<script >
+<script lang="ts" setup>
 import {
   IonHeader,
   IonToolbar,
@@ -81,51 +81,32 @@ import {
   IonModal,
   IonInput,
 } from "@ionic/vue";
-
+import { OverlayEventDetail } from "@ionic/core/components";
 import { ref } from "vue";
 
-export default {
-  components: {
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonPage,
-    IonList,
-    IonItem,
-    IonLabel,
-    IonButtons,
-    IonButton,
-    IonModal,
-    IonInput,
-  },
-  mounted() {
-    // Acceso al elemento del DOM utilizando la referencia
-    console.log(this.$refs.myDiv);
-  },
+import { computed } from "vue";
+import { useStore } from "vuex";
 
-  setup() {
-    const message = ref(
-      "This modal example uses triggers to automatically open a modal when the button is clicked."
-    );
-    const modal = ref();
-    const input = ref();
+const store = useStore();
+const itemExcel = store.state.itemExcel;
 
-    const cancel = () => modal.value.dismiss(null, "cancel");
+const message = ref(
+  "This modal example uses triggers to automatically open a modal when the button is clicked."
+);
 
-    const confirm = () => {
-      console.log(this.$refs.myDiv);
-      const name = input.value.value;
-      modal.value.dismiss(name, "confirm");
-    };
+const modal = ref();
+const input = ref();
 
-    const onWillDismiss = (ev) => {
-      if (ev.detail.role === "confirm") {
-        message.value = `Hello, ${ev.detail.data}!`;
-      }
-    };
+const cancel = () => modal.value.$el.dismiss(null, "cancel");
 
-    return { message, modal, input, cancel, confirm, onWillDismiss };
-  },
+const confirm = () => {
+  const name = input.value.$el.value;
+  modal.value.$el.dismiss(name, "confirm");
+};
+
+const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => {
+  if (ev.detail.role === "confirm") {
+    message.value = `Hello, ${ev.detail.data}!`;
+  }
 };
 </script>
