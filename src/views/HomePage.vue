@@ -127,11 +127,6 @@ const handleRefresh = (event) => {
   }, 2000);
 };
 
-const sDate = new Date("2024-06-03");
-const eDate = new Date("2024-06-30");
-const result = getWeekdaysMondayToThursday(sDate, eDate);
-console.log(result);
-
 const calculateCleanKitchen = () => {
   itemsCocinas.value = getWeekdaysMondayToThursday(
     new Date(startDate.value),
