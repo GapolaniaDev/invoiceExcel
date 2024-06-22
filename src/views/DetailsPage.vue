@@ -20,7 +20,6 @@
           <ion-label>
             {{ item.date }} {{ item.room }} {{ item.type }}
             {{ item.description }} {{ item.time }} ${{ item.amount }}
-            7.5
           </ion-label>
           <ion-button @click="openModal(item)" expand="block">Open</ion-button>
         </ion-item>
