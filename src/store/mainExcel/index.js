@@ -77,6 +77,7 @@ export default {
       state.items = updatedItems;
     },
     REMOVE_ITEM(state, itemId) {
+      console.log(itemId);
       state.items = state.items.filter((item) => item.id !== itemId);
     },
     CALCULATE_TOTAL(state) {
