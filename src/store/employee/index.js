@@ -1,14 +1,14 @@
 export default {
   namespace: true,
   state: {
-    id: null,
+    id: 1,
     email: "",
-    name: "",
-    lastname: "",
+    name: "Angie Katherine",
+    lastname: "Fierro Rojas",
     birthdate: "",
     address: "",
     phone: "",
-    abn: "",
+    abn: "34632148828",
     tax: "",
   },
   getters: {

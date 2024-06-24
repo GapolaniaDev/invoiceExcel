@@ -18,15 +18,14 @@
       <ion-list>
         <ion-item v-for="item in mainExcel.items">
           <ion-label @click="openModal(item)">
-            {{ item.date }} {{ item.room }} {{ item.type }}
-            {{ item.description }} {{ item.time }}
+            {{ item.date }} ({{ item.room }})
+            {{ item.description }}
             {{ item.amount != "" ? "$" + item.amount : "" }}
           </ion-label>
         </ion-item>
-        <ion-item class="fixed-item" slot="fixed"></ion-item>
       </ion-list>
 
-      <ion-modal ref="modal" :is-open="isOpen" @willDismiss="onWillDismiss">
+      <ion-modal ref="modal" :is-open="isOpen">
         <ion-header>
           <ion-toolbar>
             <ion-buttons slot="start">
@@ -45,7 +44,7 @@
               label="Date"
               label-placement="stacked"
               ref="input"
-              type="text"
+              type="date"
               placeholder="Date"
             ></ion-input>
           </ion-item>
@@ -100,6 +99,28 @@
               placeholder="Amount"
             ></ion-input>
           </ion-item>
+          <io-item>
+            <ion-button color="light" @click="openModalConfirm()">
+              Delete item
+            </ion-button>
+          </io-item>
+        </ion-content>
+      </ion-modal>
+
+      <ion-modal :is-open="isOpenConfirm">
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button @click="noDelete()">No</ion-button>
+            </ion-buttons>
+            <ion-title>Delete Item</ion-title>
+            <ion-buttons slot="end">
+              <ion-button :strong="true" @click="yesDelete()">Yes</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ion-item> Do you wish to delete this item? </ion-item>
         </ion-content>
       </ion-modal>
 
@@ -133,12 +154,12 @@ import {
   IonSelectOption,
 } from "@ionic/vue";
 import { add } from "ionicons/icons";
-import { OverlayEventDetail } from "@ionic/core/components";
+//import { OverlayEventDetail } from "@ionic/core/components";
 import { ref } from "vue";
 
 import { computed } from "vue";
 import { useStore } from "vuex";
-import { mapState, mapMutations } from "vuex";
+//import { mapState, mapMutations } from "vuex";
 
 const store = useStore();
 const itemExcel = store.state.itemExcel;
@@ -146,7 +167,7 @@ const itemExcel = store.state.itemExcel;
 const mainExcel = store.state.mainExcel;
 const totalAmount = computed(() => store.getters.getTotalAmount);
 const isOpen = ref(false);
-const message = ref("MSG:");
+const isOpenConfirm = ref(false);
 const modal = ref();
 const input = ref();
 
@@ -164,6 +185,21 @@ const onOptionChangeType = (event) => {
 const openModal = (item) => {
   store.commit("setItem", item);
   isOpen.value = true;
+};
+
+const openModalConfirm = () => {
+  isOpenConfirm.value = true;
+};
+
+const yesDelete = () => {
+  store.commit("REMOVE_ITEM", itemExcel.id);
+  store.dispatch("calculateTotal");
+  isOpenConfirm.value = false;
+  isOpen.value = false;
+};
+
+const noDelete = () => {
+  isOpenConfirm.value = false;
 };
 
 const newOpenModal = () => {
@@ -184,11 +220,5 @@ const confirm = () => {
   store.commit("SetNewItem", itemExcel);
   store.dispatch("calculateTotal");
   closeModal();
-};
-
-const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => {
-  if (ev.detail.role === "confirm") {
-    message.value = `Hello, ${ev.detail.data}!`;
-  }
 };
 </script>

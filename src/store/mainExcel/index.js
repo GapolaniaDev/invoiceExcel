@@ -1,7 +1,7 @@
 export default {
   namespace: true,
   state: {
-    invioceNumer: null,
+    invioceNumer: 14,
     user: {},
     company: {},
     building: {},
@@ -70,13 +70,15 @@ export default {
     DeleteItemKitchen(state) {
       let updatedItems = JSON.parse(JSON.stringify(state.items));
       for (let i = updatedItems.length - 1; i >= 0; i--) {
-        if (updatedItems[i].type === 1) {
+        console.log(updatedItems[i].type);
+        if (updatedItems[i].type === "1") {
           updatedItems.splice(i, 1);
         }
       }
       state.items = updatedItems;
     },
     REMOVE_ITEM(state, itemId) {
+      console.log(itemId);
       state.items = state.items.filter((item) => item.id !== itemId);
     },
     CALCULATE_TOTAL(state) {

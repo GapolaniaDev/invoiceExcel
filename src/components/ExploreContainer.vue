@@ -13,11 +13,6 @@
           <ion-label>Details</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="View" href="/view">
-          <ion-icon :icon="eye" />
-          <ion-label>View</ion-label>
-        </ion-tab-button>
-
         <ion-tab-button tab="Export" href="/export">
           <ion-icon :icon="download" />
           <ion-label>Export</ion-label>
