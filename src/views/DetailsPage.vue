@@ -25,7 +25,7 @@
         </ion-item>
       </ion-list>
 
-      <ion-modal ref="modal" :is-open="isOpen" @willDismiss="onWillDismiss">
+      <ion-modal ref="modal" :is-open="isOpen">
         <ion-header>
           <ion-toolbar>
             <ion-buttons slot="start">
@@ -100,7 +100,7 @@
             ></ion-input>
           </ion-item>
           <io-item>
-            <ion-button color="light" @click="openModalConfirm(itemExcel)">
+            <ion-button color="light" @click="openModalConfirm()">
               Delete item
             </ion-button>
           </io-item>
@@ -154,12 +154,12 @@ import {
   IonSelectOption,
 } from "@ionic/vue";
 import { add } from "ionicons/icons";
-import { OverlayEventDetail } from "@ionic/core/components";
+//import { OverlayEventDetail } from "@ionic/core/components";
 import { ref } from "vue";
 
 import { computed } from "vue";
 import { useStore } from "vuex";
-import { mapState, mapMutations } from "vuex";
+//import { mapState, mapMutations } from "vuex";
 
 const store = useStore();
 const itemExcel = store.state.itemExcel;
@@ -168,7 +168,6 @@ const mainExcel = store.state.mainExcel;
 const totalAmount = computed(() => store.getters.getTotalAmount);
 const isOpen = ref(false);
 const isOpenConfirm = ref(false);
-const message = ref("MSG:");
 const modal = ref();
 const input = ref();
 
@@ -188,12 +187,13 @@ const openModal = (item) => {
   isOpen.value = true;
 };
 
-const openModalConfirm = (item) => {
+const openModalConfirm = () => {
   isOpenConfirm.value = true;
 };
 
 const yesDelete = () => {
   store.commit("REMOVE_ITEM", itemExcel.id);
+  store.dispatch("calculateTotal");
   isOpenConfirm.value = false;
   isOpen.value = false;
 };
@@ -220,15 +220,5 @@ const confirm = () => {
   store.commit("SetNewItem", itemExcel);
   store.dispatch("calculateTotal");
   closeModal();
-};
-
-const deleteItem = (itemId) => {
-  store.commit("REMOVE_ITEM", itemId);
-};
-
-const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => {
-  if (ev.detail.role === "confirm") {
-    message.value = `Hello, ${ev.detail.data}!`;
-  }
 };
 </script>

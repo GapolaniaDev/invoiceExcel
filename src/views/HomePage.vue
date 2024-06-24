@@ -25,7 +25,15 @@
           <ion-item>
             <ion-input
               label="Name"
-              value="Angie Katherine Fierro Rojas"
+              v-model="employee.name"
+              :readonly="true"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-input
+              label="Last name"
+              v-model="employee.lastname"
               :readonly="true"
             ></ion-input>
           </ion-item>
@@ -33,13 +41,16 @@
           <ion-item>
             <ion-input
               label="ABN"
-              value="34632148828"
+              v-model="employee.abn"
               :readonly="true"
             ></ion-input>
           </ion-item>
 
           <ion-item>
-            <ion-input label="Invoice" value="14"></ion-input>
+            <ion-input
+              label="Invoice"
+              v-model="mainExcel.invioceNumer"
+            ></ion-input>
           </ion-item>
 
           <ion-item>
@@ -66,22 +77,25 @@
           <ion-item>
             <ion-input
               label="To"
-              value="Corporate Clean Property Services"
+              v-model="company.name"
               :readonly="true"
             ></ion-input>
           </ion-item>
           <ion-item>
             <ion-input
               label="Address"
-              value="128 Waymouth St"
+              v-model="company.address"
               :readonly="true"
             ></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input value="Adelaide" :readonly="true"></ion-input>
+            <ion-input v-model="company.city" :readonly="true"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input value="SA  5000 " :readonly="true"></ion-input>
+            <ion-input v-model="company.stateA" :readonly="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input v-model="company.postcode" :readonly="true"></ion-input>
           </ion-item>
         </ion-list>
       </ion-card>
@@ -108,14 +122,18 @@ import { getWeekdaysMondayToThursday } from "../utils";
 import { ref } from "vue";
 
 // Declaración de variables reactivas con ref
-const startDate = ref("");
-const endDate = ref("");
+
 const fechaValida = ref(false);
 const itemsCocinas = ref(null);
 import { useStore } from "vuex";
 
 const store = useStore();
 const itemExcel = store.state.itemExcel;
+const mainExcel = store.state.mainExcel;
+const employee = store.state.employee;
+const company = store.state.company;
+const endDate = ref(null);
+const startDate = ref(null);
 
 // Función para manejar el evento de refresco
 const handleRefresh = (event) => {
