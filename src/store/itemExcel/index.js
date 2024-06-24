@@ -4,7 +4,7 @@ export default {
     id: null,
     date: "",
     room: "",
-    type: "",
+    type: null,
     description: "",
     time: "",
     amount: "",
@@ -50,7 +50,7 @@ export default {
       state.id = null;
       state.date = "";
       state.room = "";
-      state.type = "";
+      state.type = null;
       state.description = "";
       state.time = "";
       state.amount = "";

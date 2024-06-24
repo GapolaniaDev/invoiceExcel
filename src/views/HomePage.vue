@@ -20,8 +20,6 @@
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
 
-      {{ fechaValida }}
-
       <ion-card class="ion-padding">
         <ion-list>
           <ion-item>
@@ -128,6 +126,7 @@ const handleRefresh = (event) => {
 };
 
 const calculateCleanKitchen = () => {
+  store.dispatch("actionRemoveItemsKitchen");
   itemsCocinas.value = getWeekdaysMondayToThursday(
     new Date(startDate.value),
     new Date(endDate.value)
@@ -137,13 +136,14 @@ const calculateCleanKitchen = () => {
       id: null,
       date: item.date,
       room: item.room,
-      type: "",
+      type: "1",
       description: item.description,
       time: "",
       amount: item.amount,
     };
     store.commit("setItem", newItem);
     store.commit("SetNewItem", itemExcel);
+    store.dispatch("calculateTotal");
   });
 };
 

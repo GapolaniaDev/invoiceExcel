@@ -8,6 +8,7 @@ export default {
     startDate: "",
     endDate: "",
     lastId: 0,
+    totalAmount: 0,
     items: [
       /*{
         id: 1,
@@ -66,9 +67,32 @@ export default {
         }
       }
     },
+    DeleteItemKitchen(state) {
+      let updatedItems = JSON.parse(JSON.stringify(state.items));
+      for (let i = updatedItems.length - 1; i >= 0; i--) {
+        if (updatedItems[i].type === 1) {
+          updatedItems.splice(i, 1);
+        }
+      }
+      state.items = updatedItems;
+    },
+    REMOVE_ITEM(state, itemId) {
+      state.items = state.items.filter((item) => item.id !== itemId);
+    },
+    CALCULATE_TOTAL(state) {
+      state.totalAmount = state.items.reduce(
+        (total, item) => total + item.amount,
+        0
+      );
+    },
   },
   actions: {
-    // Acciones para realizar operaciones asincrónicas relacionadas con el módulo principal
+    actionRemoveItemsKitchen({ commit }) {
+      commit("DeleteItemKitchen");
+    },
+    calculateTotal({ commit }) {
+      commit("CALCULATE_TOTAL");
+    },
   },
   getters: {
     getInvoiceNumber: (state) => state.invioceNumber,
@@ -78,5 +102,6 @@ export default {
     getStartDate: (state) => state.startDate,
     getEndDate: (state) => state.endDate,
     getItems: (state) => state.items,
+    getTotalAmount: (state) => state.totalAmount,
   },
 };
