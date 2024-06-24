@@ -11,18 +11,19 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Details</ion-title>
+        <ion-title>Details $ {{ totalAmount }} </ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-list :inset="true">
+      <ion-list>
         <ion-item v-for="item in mainExcel.items">
-          <ion-label>
+          <ion-label @click="openModal(item)">
             {{ item.date }} {{ item.room }} {{ item.type }}
-            {{ item.description }} {{ item.time }} ${{ item.amount }}
+            {{ item.description }} {{ item.time }}
+            {{ item.amount != "" ? "$" + item.amount : "" }}
           </ion-label>
-          <ion-button @click="openModal(item)" expand="block">Open</ion-button>
         </ion-item>
+        <ion-item class="fixed-item" slot="fixed"></ion-item>
       </ion-list>
 
       <ion-modal ref="modal" :is-open="isOpen" @willDismiss="onWillDismiss">
@@ -59,14 +60,15 @@
             ></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input
-              v-model="itemExcel.type"
-              label="Type"
-              label-placement="stacked"
-              ref="input"
-              type="text"
-              placeholder="Type"
-            ></ion-input>
+            <ion-select
+              label="Kitchen or Room"
+              placeholder="Type clean"
+              v-model="selectedOptionType"
+              @ionChange="onOptionChangeType"
+            >
+              <ion-select-option value="1">Kitchen</ion-select-option>
+              <ion-select-option value="2">Room</ion-select-option>
+            </ion-select>
           </ion-item>
           <ion-item>
             <ion-input
@@ -127,6 +129,8 @@ import {
   IonFab,
   IonFabButton,
   IonIcon,
+  IonSelect,
+  IonSelectOption,
 } from "@ionic/vue";
 import { add } from "ionicons/icons";
 import { OverlayEventDetail } from "@ionic/core/components";
@@ -140,10 +144,22 @@ const store = useStore();
 const itemExcel = store.state.itemExcel;
 //const { setItem } = mapMutations("itemExcel", ["setItem"]);
 const mainExcel = store.state.mainExcel;
+const totalAmount = computed(() => store.getters.getTotalAmount);
 const isOpen = ref(false);
 const message = ref("MSG:");
 const modal = ref();
 const input = ref();
+
+// Computed property para el valor seleccionado desde el store
+const selectedOptionType = computed({
+  get: () => store.getters.getType,
+  set: (value) => store.commit("setType", value),
+});
+
+// Función para manejar el cambio de opción
+const onOptionChangeType = (event) => {
+  selectedOptionType.value = event.target.value;
+};
 
 const openModal = (item) => {
   store.commit("setItem", item);
@@ -166,6 +182,7 @@ const cancel = () => {
 
 const confirm = () => {
   store.commit("SetNewItem", itemExcel);
+  store.dispatch("calculateTotal");
   closeModal();
 };
 
