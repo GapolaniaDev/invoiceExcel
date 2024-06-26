@@ -1,7 +1,7 @@
 export default {
   namespace: true,
   state: {
-    invioceNumer: 14,
+    invioceNumer: 16,
     user: {},
     company: {},
     building: {},
@@ -9,26 +9,7 @@ export default {
     endDate: "",
     lastId: 0,
     totalAmount: 0,
-    items: [
-      /*{
-        id: 1,
-        date: "14/07/1996",
-        room: "91",
-        type: "prueba 1",
-        description: "Test 1",
-        time: "20",
-        amount: "600",
-      },
-      {
-        id: 2,
-        date: "01/02/2024",
-        room: "122",
-        type: "prueba 2",
-        description: "Test 2",
-        time: "10",
-        amount: "300",
-      },*/
-    ],
+    items: [],
   },
   mutations: {
     // Mutaciones para modificar el state del módulo principal

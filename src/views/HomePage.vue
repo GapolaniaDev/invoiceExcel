@@ -167,6 +167,9 @@ const calculateCleanKitchen = () => {
 
 // Función para manejar el cambio en los inputs de fecha
 const handleInputChange = () => {
+  store.commit("setStartDate", startDate.value);
+  store.commit("setEndDate", endDate.value);
+
   fechaValida.value = true;
 
   // Verificar si startDate y endDate no están vacíos
