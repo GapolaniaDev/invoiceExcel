@@ -40,9 +40,6 @@ import { EXCEL_CONFIG, BORDER_STYLES } from "../models/invioceExcel"; // Suponie
 const store = useStore();
 const { mainExcel, employee, company } = store.state;
 
-const TABLE_FOOTER_START_NUMBER =
-  EXCEL_CONFIG.TABLE_BODY_START_NUMBER + mainExcel.items.length;
-
 const applyStyleToCell = (cell, style) => {
   Object.assign(cell, style);
 };
@@ -164,7 +161,7 @@ const bodyTableExcel = (worksheet) => {
 
   for (
     let row = TABLE_BODY_START_NUMBER;
-    row <= TABLE_FOOTER_START_NUMBER - 1;
+    row <= EXCEL_CONFIG.TABLE_BODY_START_NUMBER + mainExcel.items.length - 1;
     row++
   ) {
     for (let col = 1; col <= 13; col++) {
@@ -176,8 +173,8 @@ const bodyTableExcel = (worksheet) => {
 };
 
 const footerTableExcel = (worksheet) => {
-  console.log("footerTableExcel", TABLE_FOOTER_START_NUMBER);
-  const row = worksheet.getRow(TABLE_FOOTER_START_NUMBER);
+  console.log("footerTableExcel", EXCEL_CONFIG.TABLE_BODY_START_NUMBER + mainExcel.items.length);
+  const row = worksheet.getRow(EXCEL_CONFIG.TABLE_BODY_START_NUMBER + mainExcel.items.length);
 
   applyStyleToCell(row.getCell("L"), {
     ...EXCEL_CONFIG.boldStyle,
