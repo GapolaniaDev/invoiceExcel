@@ -1,7 +1,7 @@
 export default {
   namespace: true,
   state: {
-    invioceNumer: 16,
+    invoiceNumber: 16,
     user: {},
     company: {},
     building: {},

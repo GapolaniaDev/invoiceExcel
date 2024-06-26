@@ -49,7 +49,7 @@
           <ion-item>
             <ion-input
               label="Invoice"
-              v-model="mainExcel.invioceNumer"
+              v-model="mainExcel.invoiceNumber"
             ></ion-input>
           </ion-item>
 
