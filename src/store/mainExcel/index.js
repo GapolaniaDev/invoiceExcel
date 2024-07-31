@@ -64,7 +64,7 @@ export default {
     },
     CALCULATE_TOTAL(state) {
       state.totalAmount = state.items.reduce(
-        (total, item) => total + item.amount,
+        (total, item) => total + parseFloat(item.amount),
         0
       );
     },
