@@ -69,10 +69,26 @@
               @change="handleInputChange"
             ></ion-input>
           </ion-item>
+
+          <ion-item>
+            <ion-input
+              label="BSB"
+              v-model="employee.bsb"
+              :readonly="true"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-input
+              label="ACC"
+              v-model="employee.acc"
+              :readonly="true"
+            ></ion-input>
+          </ion-item>
         </ion-list>
       </ion-card>
 
-      <ion-card class="ion-padding">
+      <ion-card class="ion-padding" v-if="mostrarItem">
         <ion-list>
           <ion-item>
             <ion-input
@@ -125,7 +141,11 @@ import { ref } from "vue";
 
 const fechaValida = ref(false);
 const itemsCocinas = ref(null);
+const mostrarItem = ref(false);
+mostrarItem.value = false;
 import { useStore } from "vuex";
+
+
 
 const store = useStore();
 const itemExcel = store.state.itemExcel;

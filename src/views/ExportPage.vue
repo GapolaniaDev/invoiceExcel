@@ -59,21 +59,30 @@ const createTableHeaderCell = (cell, value) => {
 const headerExcel = (worksheet) => {
   worksheet.columns = EXCEL_CONFIG.columns;
 
+  const { INFO_COMPANY_START, TITTLE_START } = EXCEL_CONFIG;
+
   createHeaderCell(
     worksheet,
     "A2",
     `Name: ${employee.name} ${employee.lastname}`
   );
   createHeaderCell(worksheet, "H2", `Invoice: ${mainExcel.invoiceNumber}`);
-  createHeaderCell(worksheet, "A3", `Invoice: ABN: ${employee.abn}`);
+  createHeaderCell(worksheet, "A3", `ABN: ${employee.abn}`);
   createHeaderCell(
     worksheet,
     "H3",
     `Date: ${mainExcel.startDate} to ${mainExcel.endDate}`
   );
-  createHeaderCell(worksheet, "F5", "Tax Invoice");
+  createHeaderCell(worksheet, "A4", `BSB: ${employee.bsb}`);
+  createHeaderCell(worksheet, "A5", `ACC: ${employee.acc}`);
+  createHeaderCell(worksheet, "F" + TITTLE_START, "Tax Invoice");
 
-  ["A7", "A8", "A9", "A10"].forEach((cellAddress, index) => {
+  [
+    "A" + INFO_COMPANY_START,
+    "A" + (INFO_COMPANY_START + 1),
+    "A" + (INFO_COMPANY_START + 2),
+    "A" + (INFO_COMPANY_START + 3),
+  ].forEach((cellAddress, index) => {
     createHeaderCell(
       worksheet,
       cellAddress,
@@ -173,8 +182,9 @@ const bodyTableExcel = (worksheet) => {
 };
 
 const footerTableExcel = (worksheet) => {
-  console.log("footerTableExcel", EXCEL_CONFIG.TABLE_BODY_START_NUMBER + mainExcel.items.length);
-  const row = worksheet.getRow(EXCEL_CONFIG.TABLE_BODY_START_NUMBER + mainExcel.items.length);
+  const row = worksheet.getRow(
+    EXCEL_CONFIG.TABLE_BODY_START_NUMBER + mainExcel.items.length
+  );
 
   applyStyleToCell(row.getCell("L"), {
     ...EXCEL_CONFIG.boldStyle,
@@ -201,9 +211,24 @@ const generateExcel = () => {
   bodyTableExcel(worksheet);
   footerTableExcel(worksheet);
 
+
+// Fechas de ejemplo
+const startDate = new Date(mainExcel.startDate);
+const endDate = new Date(mainExcel.endDate);
+
+  // Opciones para formatear las fechas
+const optionsStart = { month: 'short', day: 'numeric' }; // "Jul 29"
+const optionsEnd = { month: 'long', day: 'numeric' }; // "August 11"
+
+// Formatear las fechas
+
+
+const formattedStartDate = startDate.toLocaleDateString('en-US', optionsStart);
+const formattedEndDate = endDate.toLocaleDateString('en-US', optionsEnd);
+
   workbook.xlsx.writeBuffer().then((buffer) => {
     const blob = new Blob([buffer], { type: EXCEL_CONFIG.mimeType });
-    saveAs(blob, `Invoice ${employee.name} ${employee.lastname}.xlsx`);
+    saveAs(blob, `Invoice ${employee.name} ${employee.lastname} ${formattedStartDate} to ${formattedEndDate}.xlsx`);
   });
 };
 </script>
