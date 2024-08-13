@@ -1,9 +1,11 @@
 import ExcelJS from "exceljs";
 // excelConfig.js
 export const EXCEL_CONFIG = {
-  TABLE_HEADER_START_NUMBER: 12,
-  TABLE_HEADER_COLUMNS_START_NUMBER: 13,
-  TABLE_BODY_START_NUMBER: 14,
+  INFO_COMPANY_START : 9,
+  TITTLE_START : 7,
+  TABLE_HEADER_START_NUMBER: 14,
+  TABLE_HEADER_COLUMNS_START_NUMBER: 15,
+  TABLE_BODY_START_NUMBER: 16,
   columns: [
     { width: 20 },
     { autoWidth: true },

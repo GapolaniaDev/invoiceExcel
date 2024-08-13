@@ -10,6 +10,8 @@ export default {
     phone: "",
     abn: "34632148828",
     tax: "",
+    bsb: '062033',
+    acc: '010999518'
   },
   getters: {
     getUserId: (state) => state.id,
@@ -21,6 +23,8 @@ export default {
     getUserPhone: (state) => state.phone,
     getUserAbn: (state) => state.abn,
     getUserTax: (state) => state.tax,
+    getUserBsb: (state) => state.bsb,
+    getUserAcc: (state) => state.acc,
   },
   mutations: {
     setId(state, newId) {
@@ -49,6 +53,12 @@ export default {
     },
     setTax(state, newTax) {
       state.tax = newTax;
+    },
+    setBsb(state, newBsb) {
+      state.bsb = newBsb;
+    },
+    setAcc(state, newAcc) {
+      state.acc = newAcc;
     },
   },
   actions: {},
