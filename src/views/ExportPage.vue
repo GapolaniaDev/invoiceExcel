@@ -33,6 +33,7 @@ import {
   IonButton,
 } from "@ionic/vue";
 import { saveAs } from "file-saver";
+import { getInvoiceNumber } from "../utils";
 import ExcelJS from "exceljs";
 import { useStore } from "vuex";
 import { EXCEL_CONFIG, BORDER_STYLES } from "../models/invioceExcel"; // Suponiendo que has creado este archivo
@@ -56,6 +57,9 @@ const createTableHeaderCell = (cell, value) => {
   cell.value = value;
 };
 
+const today = new Date(mainExcel.startDate || Date());
+const invoiceNumber = getInvoiceNumber(today);
+
 const headerExcel = (worksheet) => {
   worksheet.columns = EXCEL_CONFIG.columns;
 
@@ -66,7 +70,7 @@ const headerExcel = (worksheet) => {
     "A2",
     `Name: ${employee.name} ${employee.lastname}`
   );
-  createHeaderCell(worksheet, "H2", `Invoice: ${mainExcel.invoiceNumber}`);
+  createHeaderCell(worksheet, "H2", `Invoice: ${invoiceNumber}`);
   createHeaderCell(worksheet, "A3", `ABN: ${employee.abn}`);
   createHeaderCell(
     worksheet,
@@ -205,7 +209,7 @@ const footerTableExcel = (worksheet) => {
 
 const generateExcel = () => {
   const workbook = new ExcelJS.Workbook();
-  const worksheet = workbook.addWorksheet(`Invoice ${mainExcel.invoiceNumber}`);
+  const worksheet = workbook.addWorksheet(`Invoice ${invoiceNumber}`);
 
   headerExcel(worksheet);
   headerTableExcel(worksheet);

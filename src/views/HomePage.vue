@@ -48,13 +48,6 @@
 
           <ion-item>
             <ion-input
-              label="Invoice"
-              v-model="mainExcel.invoiceNumber"
-            ></ion-input>
-          </ion-item>
-
-          <ion-item>
-            <ion-input
               label="Start"
               type="date"
               v-model="startDate"
@@ -113,6 +106,9 @@
           <ion-item>
             <ion-input v-model="company.postcode" :readonly="true"></ion-input>
           </ion-item>
+          <ion-item>
+            <ion-input v-model="mainExcelState.invoiceNumber" :readonly="true"></ion-input>
+          </ion-item>
         </ion-list>
       </ion-card>
     </ion-content>
@@ -134,22 +130,23 @@ import {
   IonRefresher,
 } from "@ionic/vue";
 
-import {getWeekdaysMondayToFriday, getWeekdaysMondayToThursday} from "../utils";
+import {getWeekdaysMondayToFriday, getWeekdaysMondayToThursday, getInvoiceNumber} from "../utils";
 import { ref } from "vue";
 
 // Declaración de variables reactivas con ref
 
 const fechaValida = ref(false);
 const itemsCocinas = ref(null);
+const itemsNights = ref(null);
 const mostrarItem = ref(false);
 mostrarItem.value = false;
 import { useStore } from "vuex";
 
-
-
 const store = useStore();
+const mainExcelState = store.state.mainExcel;
 const itemExcel = store.state.itemExcel;
-const mainExcel = store.state.mainExcel;
+store.commit("setInvoiceNumber", getInvoiceNumber(new Date()));
+
 const employee = store.state.employee;
 const company = store.state.company;
 const endDate = ref(null);
@@ -185,12 +182,12 @@ const calculateCleanKitchen = () => {
   });
 };
 const calculateCleanNight = () => {
-  store.dispatch("actionRemoveItemsKitchen");
-  itemsCocinas.value = getWeekdaysMondayToFriday(
+  //store.dispatch("actionRemoveItemsNights");
+  itemsNights.value = getWeekdaysMondayToFriday(
       new Date(startDate.value),
       new Date(endDate.value)
   );
-  itemsCocinas.value.forEach((item) => {
+  itemsNights.value.forEach((item) => {
     const newItem = {
       id: null,
       date: item.date,
@@ -211,6 +208,7 @@ const calculateCleanNight = () => {
 const handleInputChange = () => {
   store.commit("setStartDate", startDate.value);
   store.commit("setEndDate", endDate.value);
+  store.commit("setInvoiceNumber", new Date(startDate.value || Date()));
 
   fechaValida.value = true;
 
@@ -233,6 +231,7 @@ const handleInputChange = () => {
     fechaValida.value = false;
   }
   if (fechaValida.value) {
+    console.log('ass');
     calculateCleanKitchen();
     calculateCleanNight();
   }

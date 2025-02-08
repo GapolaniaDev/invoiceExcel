@@ -6,7 +6,7 @@ export default {
     name: "Angie Katherine",
     lastname: "Fierro Rojas",
     birthdate: "",
-    address: "",
+    address: "128 Gorge RD Newton",
     phone: "",
     abn: "34632148828",
     tax: "",
