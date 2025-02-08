@@ -8,6 +8,7 @@ export default {
     description: "",
     time: "",
     amount: null,
+
   },
   getters: {
     getId: (state) => state.id,
