@@ -53,7 +53,6 @@
             ></ion-input>
           </ion-item>
 
-
           <ion-item>
             <ion-input
               label="Start"
@@ -135,7 +134,7 @@ import {
   IonRefresher,
 } from "@ionic/vue";
 
-import { getWeekdaysMondayToThursday } from "../utils";
+import {getWeekdaysMondayToFriday, getWeekdaysMondayToThursday} from "../utils";
 import { ref } from "vue";
 
 // Declaración de variables reactivas con ref
@@ -185,6 +184,28 @@ const calculateCleanKitchen = () => {
     store.dispatch("calculateTotal");
   });
 };
+const calculateCleanNight = () => {
+  store.dispatch("actionRemoveItemsKitchen");
+  itemsCocinas.value = getWeekdaysMondayToFriday(
+      new Date(startDate.value),
+      new Date(endDate.value)
+  );
+  itemsCocinas.value.forEach((item) => {
+    const newItem = {
+      id: null,
+      date: item.date,
+      room: item.room,
+      type: "1",
+      description: item.description,
+      time: "",
+      amount: item.amount,
+    };
+    store.commit("setItem", newItem);
+    store.commit("SetNewItem", itemExcel);
+    store.dispatch("calculateTotal");
+  });
+};
+
 
 // Función para manejar el cambio en los inputs de fecha
 const handleInputChange = () => {
@@ -213,6 +234,7 @@ const handleInputChange = () => {
   }
   if (fechaValida.value) {
     calculateCleanKitchen();
+    calculateCleanNight();
   }
 
   return;

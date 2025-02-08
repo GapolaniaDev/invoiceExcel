@@ -75,6 +75,7 @@ const headerExcel = (worksheet) => {
   );
   createHeaderCell(worksheet, "A4", `BSB: ${employee.bsb}`);
   createHeaderCell(worksheet, "A5", `ACC: ${employee.acc}`);
+  createHeaderCell(worksheet, "A6", `Address: ${employee.address}`);
   createHeaderCell(worksheet, "F" + TITTLE_START, "Tax Invoice");
 
   [
