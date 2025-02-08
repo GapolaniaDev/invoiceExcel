@@ -85,7 +85,7 @@
               label="Time"
               label-placement="stacked"
               ref="input"
-              type="decimal"
+              type="text"
               placeholder="Time"
             ></ion-input>
           </ion-item>
@@ -95,8 +95,9 @@
               label="Amount"
               label-placement="stacked"
               ref="input"
-              type="decimal"
+              type="number"
               placeholder="Amount"
+              @change="convertToNumber"
             ></ion-input>
           </ion-item>
           <io-item>
@@ -176,6 +177,12 @@ const selectedOptionType = computed({
   get: () => store.getters.getType,
   set: (value) => store.commit("setType", value),
 });
+
+const convertToNumber = () => {
+  if (itemExcel.amount != "") {
+    itemExcel.amount = Number(itemExcel.amount);
+  }
+}
 
 // Función para manejar el cambio de opción
 const onOptionChangeType = (event) => {

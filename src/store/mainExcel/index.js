@@ -1,7 +1,7 @@
 export default {
   namespace: true,
   state: {
-    invoiceNumber: 16,
+    invoiceNumber: 0,
     user: {},
     company: {},
     building: {},
@@ -58,6 +58,18 @@ export default {
       }
       state.items = updatedItems;
     },
+
+    DeleteItemNights(state) {
+      let updatedItems = JSON.parse(JSON.stringify(state.items));
+      for (let i = updatedItems.length - 1; i >= 0; i--) {
+        console.log(updatedItems[i].type);
+        if (updatedItems[i].type === "1") {
+          updatedItems.splice(i, 1);
+        }
+      }
+      state.items = updatedItems;
+    },
+
     REMOVE_ITEM(state, itemId) {
       console.log(itemId);
       state.items = state.items.filter((item) => item.id !== itemId);
@@ -72,6 +84,9 @@ export default {
   actions: {
     actionRemoveItemsKitchen({ commit }) {
       commit("DeleteItemKitchen");
+    },
+    actionRemoveItemsNights({ commit }) {
+      commit("DeleteItemNights");
     },
     calculateTotal({ commit }) {
       commit("CALCULATE_TOTAL");

@@ -48,14 +48,6 @@
 
           <ion-item>
             <ion-input
-              label="Invoice"
-              v-model="mainExcel.invoiceNumber"
-            ></ion-input>
-          </ion-item>
-
-
-          <ion-item>
-            <ion-input
               label="Start"
               type="date"
               v-model="startDate"
@@ -114,6 +106,9 @@
           <ion-item>
             <ion-input v-model="company.postcode" :readonly="true"></ion-input>
           </ion-item>
+          <ion-item>
+            <ion-input v-model="mainExcelState.invoiceNumber" :readonly="true"></ion-input>
+          </ion-item>
         </ion-list>
       </ion-card>
     </ion-content>
@@ -135,22 +130,23 @@ import {
   IonRefresher,
 } from "@ionic/vue";
 
-import { getWeekdaysMondayToThursday } from "../utils";
+import {getWeekdaysMondayToFriday, getWeekdaysMondayToThursday, getInvoiceNumber} from "../utils";
 import { ref } from "vue";
 
 // Declaración de variables reactivas con ref
 
 const fechaValida = ref(false);
 const itemsCocinas = ref(null);
+const itemsNights = ref(null);
 const mostrarItem = ref(false);
 mostrarItem.value = false;
 import { useStore } from "vuex";
 
-
-
 const store = useStore();
+const mainExcelState = store.state.mainExcel;
 const itemExcel = store.state.itemExcel;
-const mainExcel = store.state.mainExcel;
+store.commit("setInvoiceNumber", getInvoiceNumber(new Date()));
+
 const employee = store.state.employee;
 const company = store.state.company;
 const endDate = ref(null);
@@ -185,11 +181,34 @@ const calculateCleanKitchen = () => {
     store.dispatch("calculateTotal");
   });
 };
+const calculateCleanNight = () => {
+  //store.dispatch("actionRemoveItemsNights");
+  itemsNights.value = getWeekdaysMondayToFriday(
+      new Date(startDate.value),
+      new Date(endDate.value)
+  );
+  itemsNights.value.forEach((item) => {
+    const newItem = {
+      id: null,
+      date: item.date,
+      room: item.room,
+      type: "1",
+      description: item.description,
+      time: "",
+      amount: item.amount,
+    };
+    store.commit("setItem", newItem);
+    store.commit("SetNewItem", itemExcel);
+    store.dispatch("calculateTotal");
+  });
+};
+
 
 // Función para manejar el cambio en los inputs de fecha
 const handleInputChange = () => {
   store.commit("setStartDate", startDate.value);
   store.commit("setEndDate", endDate.value);
+  store.commit("setInvoiceNumber", new Date(startDate.value || Date()));
 
   fechaValida.value = true;
 
@@ -212,7 +231,9 @@ const handleInputChange = () => {
     fechaValida.value = false;
   }
   if (fechaValida.value) {
+    console.log('ass');
     calculateCleanKitchen();
+    calculateCleanNight();
   }
 
   return;

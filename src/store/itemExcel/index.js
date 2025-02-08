@@ -7,7 +7,7 @@ export default {
     type: null,
     description: "",
     time: "",
-    amount: "",
+    amount: null,
   },
   getters: {
     getId: (state) => state.id,
@@ -53,7 +53,7 @@ export default {
       state.type = null;
       state.description = "";
       state.time = "";
-      state.amount = "";
+      state.amount = null;
     },
 
     setItem(state, newItem) {
