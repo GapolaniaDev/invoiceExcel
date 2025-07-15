@@ -168,9 +168,9 @@ const itemExcel = store.state.itemExcel;
 const mainExcel = store.state.mainExcel;
 const totalAmount = computed(() => store.getters.getTotalAmount);
 
-// Función para obtener el día de la semana en inglés
+// Función para obtener el día de la semana en inglés (iniciales)
 const getDayOfWeek = (dateString) => {
-  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const date = new Date(dateString);
   return days[date.getDay()];
 };
