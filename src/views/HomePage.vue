@@ -78,6 +78,16 @@
               :readonly="true"
             ></ion-input>
           </ion-item>
+          
+          <ion-item>
+            <ion-label>Kitchen Cleaning</ion-label>
+            <ion-toggle v-model="kitchenCleaningEnabled" @ionChange="saveSelections"></ion-toggle>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label>Night Cleaning</ion-label>
+            <ion-toggle v-model="nightCleaningEnabled" @ionChange="saveSelections"></ion-toggle>
+          </ion-item>
         </ion-list>
       </ion-card>
 
@@ -128,9 +138,11 @@ import {
   IonItem,
   IonRefresherContent,
   IonRefresher,
+  IonToggle,
+  IonLabel,
 } from "@ionic/vue";
 
-import {getWeekdaysMondayToFriday, getWeekdaysMondayToThursday, getInvoiceNumber} from "../utils";
+import {getWeekdaysMondayToThursday, getInvoiceNumber} from "../utils";
 import { ref } from "vue";
 
 // Declaración de variables reactivas con ref
@@ -151,6 +163,58 @@ const employee = store.state.employee;
 const company = store.state.company;
 const endDate = ref(null);
 const startDate = ref(null);
+
+// Estados para los toggles
+const kitchenCleaningEnabled = ref(false);
+const nightCleaningEnabled = ref(true); // Por defecto Night cleaning activo
+
+// Cargar selecciones guardadas al iniciar
+const loadSelections = () => {
+  const saved = localStorage.getItem('cleaningSelections');
+  if (saved) {
+    const selections = JSON.parse(saved);
+    kitchenCleaningEnabled.value = selections.kitchen || false;
+    nightCleaningEnabled.value = selections.night !== undefined ? selections.night : true;
+  }
+};
+
+// Guardar selecciones y recalcular
+const saveSelections = () => {
+  const selections = {
+    kitchen: kitchenCleaningEnabled.value,
+    night: nightCleaningEnabled.value
+  };
+  localStorage.setItem('cleaningSelections', JSON.stringify(selections));
+  
+  // Recalcular solo si las fechas son válidas
+  if (fechaValida.value) {
+    recalculateItems();
+  }
+};
+
+// Función para recalcular items basado en las selecciones
+const recalculateItems = () => {
+  // Limpiar todos los items primero
+  store.dispatch("actionRemoveItemsKitchen");
+  store.dispatch("actionRemoveItemsNights");
+  
+  // Validar que al menos uno esté seleccionado
+  if (!kitchenCleaningEnabled.value && !nightCleaningEnabled.value) {
+    alert('Debe seleccionar al menos un tipo de limpieza');
+    return;
+  }
+  
+  // Ejecutar solo las funciones de los items seleccionados
+  if (kitchenCleaningEnabled.value) {
+    calculateCleanKitchen();
+  }
+  if (nightCleaningEnabled.value) {
+    calculateCleanNight();
+  }
+};
+
+// Cargar selecciones al iniciar
+loadSelections();
 
 // Función para manejar el evento de refresco
 const handleRefresh = (event) => {
@@ -183,7 +247,7 @@ const calculateCleanKitchen = () => {
 };
 const calculateCleanNight = () => {
   //store.dispatch("actionRemoveItemsNights");
-  itemsNights.value = getWeekdaysMondayToFriday(
+  itemsNights.value = getWeekdaysMondayToThursday(
       new Date(startDate.value),
       new Date(endDate.value)
   );
@@ -231,9 +295,7 @@ const handleInputChange = () => {
     fechaValida.value = false;
   }
   if (fechaValida.value) {
-    console.log('ass');
-    calculateCleanKitchen();
-    calculateCleanNight();
+    recalculateItems();
   }
 
   return;

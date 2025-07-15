@@ -18,7 +18,7 @@
       <ion-list>
         <ion-item v-for="item in mainExcel.items">
           <ion-label @click="openModal(item)">
-            {{ item.date }} ({{ item.room }})
+            {{ item.date }} - {{ getDayOfWeek(item.date) }} ({{ item.room }})
             {{ item.description }}
             {{ item.amount != "" ? "$" + item.amount : "" }}
           </ion-label>
@@ -167,6 +167,13 @@ const itemExcel = store.state.itemExcel;
 //const { setItem } = mapMutations("itemExcel", ["setItem"]);
 const mainExcel = store.state.mainExcel;
 const totalAmount = computed(() => store.getters.getTotalAmount);
+
+// Función para obtener el día de la semana en inglés
+const getDayOfWeek = (dateString) => {
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const date = new Date(dateString);
+  return days[date.getDay()];
+};
 const isOpen = ref(false);
 const isOpenConfirm = ref(false);
 const modal = ref();
