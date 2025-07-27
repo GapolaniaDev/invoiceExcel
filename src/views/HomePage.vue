@@ -142,7 +142,7 @@ import {
   IonLabel,
 } from "@ionic/vue";
 
-import {getWeekdaysMondayToThursday, getInvoiceNumber} from "../utils";
+import {getKitchenCleaningDays, getNightCleaningDays, getInvoiceNumber} from "../utils";
 import { ref } from "vue";
 
 // Declaración de variables reactivas con ref
@@ -226,7 +226,7 @@ const handleRefresh = (event) => {
 
 const calculateCleanKitchen = () => {
   store.dispatch("actionRemoveItemsKitchen");
-  itemsCocinas.value = getWeekdaysMondayToThursday(
+  itemsCocinas.value = getKitchenCleaningDays(
     new Date(startDate.value),
     new Date(endDate.value)
   );
@@ -247,7 +247,7 @@ const calculateCleanKitchen = () => {
 };
 const calculateCleanNight = () => {
   //store.dispatch("actionRemoveItemsNights");
-  itemsNights.value = getWeekdaysMondayToThursday(
+  itemsNights.value = getNightCleaningDays(
       new Date(startDate.value),
       new Date(endDate.value)
   );
