@@ -1,4 +1,4 @@
-export function getWeekdaysMondayToThursday(startDate, endDate) {
+export function getKitchenCleaningDays(startDate, endDate) {
   const weekdays = [];
   let currentDate = new Date(startDate);
 
@@ -42,13 +42,13 @@ export function getWeekdaysMondayToThursday(startDate, endDate) {
   return weekdays;
 }
 
-export function getWeekdaysMondayToFriday(startDate, endDate) {
+export function getNightCleaningDays(startDate, endDate) {
   const weekdays = [];
   let currentDate = new Date(startDate);
 
   while (currentDate <= endDate) {
     const dayOfWeek = currentDate.getDay();
-    if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+    if (dayOfWeek >= 1 && dayOfWeek <= 4) {
       const day = String(currentDate.getDate()).padStart(2, '0');
       const month = String(currentDate.getMonth() + 1).padStart(2, '0');
       const year = currentDate.getFullYear();
@@ -68,9 +68,6 @@ export function getWeekdaysMondayToFriday(startDate, endDate) {
         case 4: // Jueves
           room = "Night Clean (Y-Suite city Gardens)";
           break;
-        case 5: // Viernes
-          room = "Night Clean (Y-Suite city Gardens)";
-          break;
         default:
           room = "Unknown";
       }
@@ -79,7 +76,7 @@ export function getWeekdaysMondayToFriday(startDate, endDate) {
       weekdays.push({
         date: formattedDate,
         room,
-        description: "Night Clean",
+        description: "Night cleaning",
         amount: 90,
       });
     }
