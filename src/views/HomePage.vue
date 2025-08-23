@@ -84,9 +84,29 @@
             <ion-toggle v-model="kitchenCleaningEnabled" @ionChange="saveSelections"></ion-toggle>
           </ion-item>
           
+          <ion-item v-if="kitchenCleaningEnabled">
+            <ion-input
+              label="Kitchen Cleaning Rate (per hour)"
+              type="number"
+              v-model="kitchenHourlyRate"
+              placeholder="128"
+              @ionInput="saveSelections"
+            ></ion-input>
+          </ion-item>
+          
           <ion-item>
             <ion-label>Night Cleaning</ion-label>
             <ion-toggle v-model="nightCleaningEnabled" @ionChange="saveSelections"></ion-toggle>
+          </ion-item>
+          
+          <ion-item v-if="nightCleaningEnabled">
+            <ion-input
+              label="Night Cleaning Rate (per hour)"
+              type="number"
+              v-model="nightHourlyRate"
+              placeholder="96"
+              @ionInput="saveSelections"
+            ></ion-input>
           </ion-item>
         </ion-list>
       </ion-card>
@@ -168,6 +188,10 @@ const startDate = ref(null);
 const kitchenCleaningEnabled = ref(false);
 const nightCleaningEnabled = ref(true); // Por defecto Night cleaning activo
 
+// Variables para las tarifas por hora con valor por defecto de $32
+const kitchenHourlyRate = ref(128);
+const nightHourlyRate = ref(96);
+
 // Cargar selecciones guardadas al iniciar
 const loadSelections = () => {
   const saved = localStorage.getItem('cleaningSelections');
@@ -175,6 +199,8 @@ const loadSelections = () => {
     const selections = JSON.parse(saved);
     kitchenCleaningEnabled.value = selections.kitchen || false;
     nightCleaningEnabled.value = selections.night !== undefined ? selections.night : true;
+    kitchenHourlyRate.value = selections.kitchenRate || 128;
+    nightHourlyRate.value = selections.nightRate || 96;
   }
 };
 
@@ -182,7 +208,9 @@ const loadSelections = () => {
 const saveSelections = () => {
   const selections = {
     kitchen: kitchenCleaningEnabled.value,
-    night: nightCleaningEnabled.value
+    night: nightCleaningEnabled.value,
+    kitchenRate: kitchenHourlyRate.value,
+    nightRate: nightHourlyRate.value
   };
   localStorage.setItem('cleaningSelections', JSON.stringify(selections));
   
@@ -238,7 +266,7 @@ const calculateCleanKitchen = () => {
       type: "1",
       description: item.description,
       time: "",
-      amount: item.amount,
+      amount: kitchenHourlyRate.value,
     };
     store.commit("setItem", newItem);
     store.commit("SetNewItem", itemExcel);
@@ -259,7 +287,7 @@ const calculateCleanNight = () => {
       type: "1",
       description: item.description,
       time: "",
-      amount: item.amount,
+      amount: nightHourlyRate.value,
     };
     store.commit("setItem", newItem);
     store.commit("SetNewItem", itemExcel);
