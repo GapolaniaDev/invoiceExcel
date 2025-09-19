@@ -10,8 +10,8 @@ export default {
     phone: "",
     abn: "34632148828",
     tax: "",
-    bsb: '062033',
-    acc: '010999518'
+    bsb: '062948',
+    acc: '47101807'
   },
   getters: {
     getUserId: (state) => state.id,

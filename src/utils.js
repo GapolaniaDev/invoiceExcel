@@ -57,16 +57,16 @@ export function getNightCleaningDays(startDate, endDate) {
       // Determinar el valor para el campo room según el día de la semana
       switch (dayOfWeek) {
         case 1: // Lunes
-          room = "Night Clean (Y-Suite city Gardens)";
+          room = "Night Clean (Y-Suite Waymouth)";
           break;
         case 2: // Martes
-          room = "Night Clean (Y-Suite city Gardens)";
+          room = "Night Clean (Y-Suite Waymouth)";
           break;
         case 3: // Miércoles
-          room = "Night Clean (Y-Suite city Gardens)";
+          room = "Night Clean (Y-Suite Waymouth)";
           break;
         case 4: // Jueves
-          room = "Night Clean (Y-Suite city Gardens)";
+          room = "Night Clean (Y-Suite Waymouth)";
           break;
         default:
           room = "Unknown";
